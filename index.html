@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- own css link -->
+    <link rel="stylesheet" href="./style.css">
+    <title>Validation From</title>
+</head>
+
+<body>
+
+    <!-- <div  class="container" id="container">
+        <form class="form" id="form">
+            <h2>SignUp</h2>
+            <div class="form-control">
+                <label for="username">username</label>
+                <input type="text" id="email" placeholder="Enter Pasword">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter email">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" id="password2" placeholder="Enter password again">
+                <small>Error Message</small>
+            </div>
+            <button>Submit</button>
+        </form>
+    </div> -->
+
+
+
+    <!-- <div class="container">
+        <form id="form" class="form">
+            <h2>SignUp</h2>
+            <div class="form-control ">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter email">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" placeholder="Enter password again">
+                <small>Error Message</small>
+            </div>
+            <button>Submit</button><br />
+
+        </form>
+    </div> -->
+
+        
+    <div class="container" style="height: 50%;">
+        <form  id="form" class="form">
+            <h2>SignUp</h2>
+            <div class="form-control ">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter email">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" placeholder="Enter password again">
+                <small>Error Message</small>
+            </div>
+            <button>Submit</button><br/>
+            
+        </form>
+       
+    </div>
+
+
+<!-- Own jsscript -->
+<script src="./script.js">
+    const form = document.getElementById('form');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('password2');
+
+
+    //function to show errorr 
+    function showerror(input, message) {
+        const formControl = input.parentElement;
+        formControl.className = 'form-control error';
+        const small = formControl.querySelector('small')
+        small.innerText = message;
+
+    }
+
+    //function to show success
+
+    function showsuccess(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'form-control success';
+
+
+    }
+
+
+    //function to check email
+    function checkEmail(input) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (re.test(input.value.trim())) {
+            showsuccess(input);
+        } else {
+            showerror(input, `${getFieldId(input)} is not valid.`)
+        }
+    }
+
+
+
+    //function to validate every input field
+    function checkRequired(inputArray) {
+        inputArray.forEach(input => {
+            if (input.value === '') {
+                showerror(input, `${getFieldId(input)} is required`);
+            }
+            else {
+                showsuccess(input);
+            }
+
+        });
+
+    }
+
+    //function to check length
+
+    function checkLength(input, min, max) {
+        if (input.value.length < min) {
+            showerror(input, `${getFieldId(input)} must be atleat ${min} characters.`);
+        } else if (input.value.length > max) {
+            showerror(input, `${getFieldId(input)} must be less than ${max} characters.`);
+        } else {
+            showsuccess(input);
+        }
+
+    }
+
+    //fuction to check password and confirm password
+    function checkPassMatch(input1, input2) {
+        if (input1.value !== input2.value) {
+            showerror(input2, 'Password not matched!')
+        }
+    }
+
+    //function to get the name of the input field
+    function getFieldId(input) {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    }
+
+
+
+    //event on sumbit button
+    form.addEventListener('submit',function(e) {
+        // alert("hello")
+        
+        
+        checkRequired([username, email, password, password2]);
+        checkLength(username, 3, 20);
+        checkLength(password, 6, 30);
+        checkEmail(email);
+        checkPassMatch(password, password2)
+        
+        e.preventDefault();
+
+    })
+</script>
+</body>
+
+
+</html>
